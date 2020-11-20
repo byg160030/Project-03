@@ -15,6 +15,13 @@ public class ObjectPoolingManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+        for (int i = 0; i < bulletAmount; i++)
+        {
+            GameObject prefabInstance = Instantiate(bulletPrefab);
+            prefabInstance.transform.SetParent(transform);
+            prefabInstance.SetActive(false);
+        }
     }
 
     public GameObject GetBullet()
