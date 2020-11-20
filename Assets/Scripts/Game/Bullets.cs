@@ -26,7 +26,7 @@ public class Bullets : MonoBehaviour
         lifeTimer -= Time.deltaTime;
         if (lifeTimer <= 0f)
         {
-            Destroy (gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
