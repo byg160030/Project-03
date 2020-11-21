@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e575e98c005244aa57fb138bae1a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3567206843789626699}
+  speed: 30
+  lifeDuration: 2
 --- !u!135 &6030578963881448462
 SphereCollider:
   m_ObjectHideFlags: 0

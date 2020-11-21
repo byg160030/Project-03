@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class AmmoCrate : MonoBehaviour
 {
-    public GameObject continer;
+    [Header("Visuals")]
+    public GameObject container;
     public float rotationSpeed = 180f;
+
+    [Header("Gameplay")]
+    public int ammo = 12;
 
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
+        container.transform.Rotate(Vector3.up * rotationSpeed * Time.deltaTime);
     }
 }

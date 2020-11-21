@@ -10,18 +10,13 @@ public class GameController : MonoBehaviour
     public Player player;
 
     [Header("UI")]
+    public Text healthText;
     public Text ammoText;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
+        healthText.text = "Health: " + player.Health;
         ammoText.text = "Ammo: " + player.Ammo;
     }
 }
