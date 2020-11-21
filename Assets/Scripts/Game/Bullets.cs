@@ -11,7 +11,7 @@ public class Bullets : MonoBehaviour
     private float lifeTimer;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         lifeTimer = lifeDuration;
     }
