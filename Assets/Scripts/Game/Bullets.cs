@@ -7,8 +7,14 @@ public class Bullets : MonoBehaviour
 
     public float speed = 8f;
     public float lifeDuration = 2f;
+    public int damage = 5;
 
     private float lifeTimer;
+    
+    private bool shotByPlayer;
+    public bool ShotByPlayer { get { return shotByPlayer;  } set { shotByPlayer = value;  }
+    }
+
 
     // Start is called before the first frame update
     void OnEnable()

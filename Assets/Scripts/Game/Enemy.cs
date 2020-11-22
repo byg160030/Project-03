@@ -8,15 +8,21 @@ public class Enemy : MonoBehaviour
     public int health = 5;
     public int damage = 5;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider otherCollider)
     {
-        
-    }
+        if (otherCollider.GetComponent<Bullets>() != null)
+        {
+            Bullets bullet = otherCollider.GetComponent<Bullets>();
+            if (bullet.ShotByPlayer == true)
+            {
+                health -= bullet.damage;
+                bullet.gameObject.SetActive(false);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+                if (health <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
     }
 }

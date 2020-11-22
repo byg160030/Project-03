@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
             {
                 ammo--;
 
-                GameObject bulletObject = ObjectPoolingManager.Instance.GetBullet();
+                GameObject bulletObject = ObjectPoolingManager.Instance.GetBullet(true);
                 bulletObject.transform.position = playerCamera.transform.position + playerCamera.transform.forward;
                 bulletObject.transform.forward = playerCamera.transform.forward;
             }
@@ -46,30 +46,45 @@ public class Player : MonoBehaviour
     }
 
     // Check for collisions.
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    void OnTriggerEnter(Collider otherCollider)
     {
-
-        if (hit.collider.GetComponent<AmmoCrate>() != null)
+        if (otherCollider.GetComponent<AmmoCrate>() != null)
         {
             // Collect ammo crates
-            AmmoCrate ammoCrate = hit.collider.GetComponent<AmmoCrate>();
+            AmmoCrate ammoCrate = otherCollider.GetComponent<AmmoCrate>();
             ammo += ammoCrate.ammo;
 
             Destroy(ammoCrate.gameObject);
         }
-        else if (hit.collider.GetComponent<Enemy>() != null)
-        {
-            if (isHurt == false)
-            {
-                Enemy enemy = hit.collider.GetComponent<Enemy>();
-                health -= enemy.damage;
 
+        if (isHurt == false)
+        {
+            GameObject hazard = null;
+
+            if (otherCollider.GetComponent<Enemy>() != null)
+            {
+                Enemy enemy = otherCollider.GetComponent<Enemy>();
+                hazard = enemy.gameObject;
+                health -= enemy.damage;
+            } else if (otherCollider.GetComponent<Bullets>() != null)
+            {
+                Bullets bullet = otherCollider.GetComponent<Bullets>();
+                if (bullet.ShotByPlayer == false)
+                {
+                    hazard = bullet.gameObject;
+                    health -= bullet.damage;
+                    bullet.gameObject.SetActive(false);
+                }
+            }
+
+            if (hazard != null)
+            {
                 isHurt = true;
 
                 // Perform the knockback effect.
-                Vector3 hurtDirection = (transform.position - enemy.transform.position).normalized;
+                Vector3 hurtDirection = (transform.position - hazard.transform.position).normalized;
                 Vector3 knockbackDirection = (hurtDirection + Vector3.up).normalized;
-                GetComponent<ForceReciever>().AddForce (knockbackDirection, knockbackForce);
+                GetComponent<ForceReciever>().AddForce(knockbackDirection, knockbackForce);
 
                 StartCoroutine(HurtRoutine());
             }
