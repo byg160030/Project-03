@@ -8,6 +8,9 @@ public class Enemy : MonoBehaviour
     public int health = 5;
     public int damage = 5;
 
+    private bool killed = false;
+    public bool Killed { get { return killed; } }
+
     private void OnTriggerEnter(Collider otherCollider)
     {
         if (otherCollider.GetComponent<Bullets>() != null)
@@ -20,9 +23,18 @@ public class Enemy : MonoBehaviour
 
                 if (health <= 0)
                 {
-                    Destroy(gameObject);
+                    if (killed == false)
+                    {
+                        killed = true;
+                        OnKill();
+                    }
                 }
             }
         }
+    }
+
+    protected virtual void OnKill ()
+    {
+
     }
 }
