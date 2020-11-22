@@ -15,28 +15,21 @@ public class GameController : MonoBehaviour
     public Text ammoText;
     public Text enemyText;
 
-    private int initialEnemyCount;
-
-    void Start()
-    {
-        initialEnemyCount = enemyContainer.GetComponentsInChildren<Enemy>().Length;
-    }
-
     // Update is called once per frame
     void Update()
     {
         healthText.text = "Health: " + player.Health;
         ammoText.text = "Ammo: " + player.Ammo;
 
-        int killedEnemies = 0;
+        int aliveEnemies = 0;
         foreach (Enemy enemy in enemyContainer.GetComponentsInChildren<Enemy>())
         {
-            if (enemy.Killed == true)
+            if (enemy.Killed == false)
             {
-                killedEnemies++;
+                aliveEnemies++;
             }
         }
 
-        enemyText.text = "Enemies: " + (initialEnemyCount - killedEnemies);
+        enemyText.text = "Enemies: " + aliveEnemies;
     }
 }
