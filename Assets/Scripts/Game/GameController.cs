@@ -14,6 +14,12 @@ public class GameController : MonoBehaviour
     public Text healthText;
     public Text ammoText;
     public Text enemyText;
+    public Text infoText;
+
+    void Start()
+    {
+        infoText.gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
@@ -31,5 +37,11 @@ public class GameController : MonoBehaviour
         }
 
         enemyText.text = "Enemies: " + aliveEnemies;
+
+        if (aliveEnemies == 0)
+        {
+            infoText.gameObject.SetActive(true);
+            infoText.text = "Mission Complete!\nGood job!";
+        }
     }
 }
