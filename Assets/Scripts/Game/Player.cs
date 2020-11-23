@@ -8,10 +8,19 @@ public class Player : MonoBehaviour
     public Camera playerCamera;
 
     [Header("Gameplay")]
-    public int initialHealth = 100;
+    public int initialShield = 100;
+    public int initialHealth = 70;
     public int initialAmmo = 12;
     public float knockbackForce = 10;
     public float hurtDuration = 0.5f;
+
+    private int shield;
+
+    public int Shield { get { return shield; } }
+
+    public float UpdatedShield;
+
+    public float ShieldIncreasePerSecond;
 
     private int health;
     public int Health { get { return health; } }
@@ -27,6 +36,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        shield = initialShield;
         health = initialHealth;
         ammo = initialAmmo;
     }
