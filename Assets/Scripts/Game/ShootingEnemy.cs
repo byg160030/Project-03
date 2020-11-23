@@ -28,6 +28,12 @@ public class ShootingEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (player.Killed == true)
+        {
+            agent.enabled = false;
+            this.enabled = false;
+            GetComponent<Rigidbody>().isKinematic = true;
+        }
         // Shooting Logic.
         shootingTimer -= Time.deltaTime;
         if(shootingTimer <= 0 && Vector3.Distance(transform.position, player.transform.position) <= shootingDistance)

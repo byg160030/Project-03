@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     private int ammo;
     public int Ammo { get { return ammo; } }
 
+    private bool killed;
+    public bool Killed { get { return killed; } }
+
     private bool isHurt;
 
     // Start is called before the first frame update
@@ -33,7 +36,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (ammo > 0)
+            if (ammo > 0 && Killed == false)
             {
                 ammo--;
 
@@ -64,8 +67,11 @@ public class Player : MonoBehaviour
             if (otherCollider.GetComponent<Enemy>() != null)
             {
                 Enemy enemy = otherCollider.GetComponent<Enemy>();
-                hazard = enemy.gameObject;
-                health -= enemy.damage;
+                if (enemy.Killed == false)
+                {
+                    hazard = enemy.gameObject;
+                    health -= enemy.damage;
+                }
             } else if (otherCollider.GetComponent<Bullets>() != null)
             {
                 Bullets bullet = otherCollider.GetComponent<Bullets>();
@@ -88,6 +94,16 @@ public class Player : MonoBehaviour
 
                 StartCoroutine(HurtRoutine());
             }
+
+            if (health <= 0)
+            {
+                if (killed == false)
+                {
+                    killed = true;
+
+                    OnKill();
+                }
+            }
         }
     }
 
@@ -96,5 +112,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(hurtDuration);
 
         isHurt = false;
+    }
+    private void OnKill()
+    {
+        GetComponent<CharacterController>().enabled = false;
+        GetComponent<PlayerMovement>().enabled = false;
     }
 }

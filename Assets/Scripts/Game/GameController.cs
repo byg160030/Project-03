@@ -43,5 +43,11 @@ public class GameController : MonoBehaviour
             infoText.gameObject.SetActive(true);
             infoText.text = "Mission Complete!\nGood job!";
         }
+
+        if (player.Killed == true)
+        {
+            infoText.gameObject.SetActive(true);
+            infoText.text = "Mission Failed\nTry again?";
+        }
     }
 }
