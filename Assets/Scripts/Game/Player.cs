@@ -58,6 +58,15 @@ public class Player : MonoBehaviour
             ammo += ammoCrate.ammo;
 
             Destroy(ammoCrate.gameObject);
+        } 
+        
+        else if (otherCollider.GetComponent<HealthPack>() != null)
+        {
+            // Collect health pack
+            HealthPack healthPack = otherCollider.GetComponent<HealthPack>();
+            health += healthPack.health;
+
+            Destroy(healthPack.gameObject);
         }
 
         if (isHurt == false)
