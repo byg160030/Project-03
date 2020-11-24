@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthText.text = "Health: " + player.Health;
+        healthText.text = "Shield: " + player.updatedHealth;
         ammoText.text = "Ammo: " + player.Ammo;
 
         int aliveEnemies = 0;
@@ -42,27 +42,27 @@ public class GameController : MonoBehaviour
 
         enemyText.text = "Enemies: " + aliveEnemies;
 
-        if (aliveEnemies == 0)
-        {
-            gameOver = true;
-            infoText.gameObject.SetActive(true);
-            infoText.text = "Mission Complete!\nGood job!";
-        }
+        //if (aliveEnemies == 0)
+        //{
+            //gameOver = true;
+            //infoText.gameObject.SetActive(true);
+            //infoText.text = "Mission Complete!\nGood job!";
+        //}
 
-        if (player.Killed == true)
-        {
-            gameOver = true;
-            infoText.gameObject.SetActive(true);
-            infoText.text = "Mission Failed\nTry again?";
-        }
+        //if (player.Killed == true)
+        //{
+            //gameOver = true;
+            //infoText.gameObject.SetActive(true);
+            //infoText.text = "Mission Failed\nTry again?";
+        //}
 
-        if (gameOver == true)
-        {
-            resetTimer -= Time.deltaTime;
-            if (resetTimer <= 0)
-            {
+        //if (gameOver == true)
+        //{
+            //resetTimer -= Time.deltaTime;
+            //if (resetTimer <= 0)
+            //{
                 SceneManager.LoadScene("MainMenu");
-            }
-        }
+            //}
+        //}
     }
 }

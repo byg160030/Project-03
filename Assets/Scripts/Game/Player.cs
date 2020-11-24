@@ -1,29 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [Header("Visuals")]
     public Camera playerCamera;
 
+    [Header("Audio")]
+    public AudioSource shieldSound;
+
     [Header("Gameplay")]
-    public int initialShield = 100;
-    public int initialHealth = 70;
+    public float updatedHealth;
+    public float maxHealth;
+    public float pointIncreasePersecond;
     public int initialAmmo = 12;
     public float knockbackForce = 10;
     public float hurtDuration = 0.5f;
-
-    private int shield;
-
-    public int Shield { get { return shield; } }
-
-    public float UpdatedShield;
-
-    public float ShieldIncreasePerSecond;
-
-    private int health;
-    public int Health { get { return health; } }
+    public Text healthUI;
 
     private int ammo;
     public int Ammo { get { return ammo; } }
@@ -36,14 +31,28 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        shield = initialShield;
-        health = initialHealth;
+        updatedHealth = 100;
+        maxHealth = 100;
+        pointIncreasePersecond = 5;
         ammo = initialAmmo;
     }
 
     // Update is called once per frame
     void Update()
     {
+        updatedHealth += pointIncreasePersecond * Time.deltaTime;
+
+        if (updatedHealth > maxHealth)
+        {
+            updatedHealth = 100;
+        }
+
+        if (updatedHealth < 0)
+        {
+            updatedHealth = 0;
+        }
+        healthUI.text = (int)updatedHealth + " Shield";
+
         if (Input.GetMouseButtonDown(0))
         {
             if (ammo > 0 && Killed == false)
@@ -68,13 +77,13 @@ public class Player : MonoBehaviour
             ammo += ammoCrate.ammo;
 
             Destroy(ammoCrate.gameObject);
-        } 
-        
+        }
+
         else if (otherCollider.GetComponent<HealthPack>() != null)
         {
             // Collect health pack
             HealthPack healthPack = otherCollider.GetComponent<HealthPack>();
-            health += healthPack.health;
+            updatedHealth += healthPack.health;
 
             Destroy(healthPack.gameObject);
         }
@@ -89,15 +98,16 @@ public class Player : MonoBehaviour
                 if (enemy.Killed == false)
                 {
                     hazard = enemy.gameObject;
-                    health -= enemy.damage;
+                    updatedHealth -= enemy.damage;
                 }
-            } else if (otherCollider.GetComponent<Bullets>() != null)
+            }
+            else if (otherCollider.GetComponent<Bullets>() != null)
             {
                 Bullets bullet = otherCollider.GetComponent<Bullets>();
                 if (bullet.ShotByPlayer == false)
                 {
                     hazard = bullet.gameObject;
-                    health -= bullet.damage;
+                    updatedHealth -= bullet.damage;
                     bullet.gameObject.SetActive(false);
                 }
             }
@@ -114,19 +124,19 @@ public class Player : MonoBehaviour
                 StartCoroutine(HurtRoutine());
             }
 
-            if (health <= 0)
+            if (updatedHealth <= 0)
             {
                 if (killed == false)
                 {
                     killed = true;
 
-                    OnKill();
+                    //OnKill();
                 }
             }
         }
     }
 
-    IEnumerator HurtRoutine ()
+    IEnumerator HurtRoutine()
     {
         yield return new WaitForSeconds(hurtDuration);
 
