@@ -9,7 +9,9 @@ public class Player : MonoBehaviour
     public Camera playerCamera;
 
     [Header("Audio")]
-    public AudioSource shieldSound;
+    public AudioSource shieldrechargingSound;
+    public AudioSource lowshieldSound;
+    public AudioSource noshieldSound;
 
     [Header("Gameplay")]
     public float updatedHealth;
@@ -45,13 +47,24 @@ public class Player : MonoBehaviour
         if (updatedHealth > maxHealth)
         {
             updatedHealth = 100;
-            shieldSound.Play();
+            shieldrechargingSound.Play();
+        }
+
+        if (updatedHealth >= 50)
+        {
+            lowshieldSound.Play();
+        }
+
+        if (updatedHealth >= 20)
+        {
+            noshieldSound.Play();
         }
 
         if (updatedHealth < 0)
         {
             updatedHealth = 0;
         }
+
         healthUI.text = (int)updatedHealth + " Shield";
 
         if (Input.GetMouseButtonDown(0))
