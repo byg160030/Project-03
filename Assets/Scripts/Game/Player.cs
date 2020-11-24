@@ -45,6 +45,7 @@ public class Player : MonoBehaviour
         if (updatedHealth > maxHealth)
         {
             updatedHealth = 100;
+            shieldSound.Play();
         }
 
         if (updatedHealth < 0)
